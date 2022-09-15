@@ -7,7 +7,7 @@ from django.db import models
 class Customer(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True)
-    email = models.CharField(max_length=200)
+    email = models.EmailField()
 
     def __str__(self):
         return self.name
@@ -15,7 +15,7 @@ class Customer(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
-    price = models.FloatField()
+    price = models.DecimalField(decimal_places=2, max_digits=10)
     digital = models.BooleanField(default=False, null=True, blank=True)
     description = models.TextField()
     quantity = models.IntegerField()
@@ -26,6 +26,9 @@ class Product(models.Model):
 
     @property
     def imageURL(self):
+        """
+        If there's no image, show nothing
+        """
         try:
             url = self.image.url
         except:
@@ -44,14 +47,20 @@ class Order(models.Model):
 
     @property
     def get_cart_total(self):
-        orderitems = self.cart_set.all()
-        total = sum([item.get_total for item in orderitems])
+        """
+        Return total value inside the cart
+        """
+        cart = self.cart_set.all()
+        total = sum([item.get_total for item in cart])
         return total
 
     @property
     def get_cart_items(self):
-        orderitems = self.cart_set.all()
-        total = sum([item.quantity for item in orderitems])
+        """
+        Return total of items inside the cart
+        """
+        cart = self.cart_set.all()
+        total = sum([item.quantity for item in cart])
         return total
 
 
@@ -59,8 +68,14 @@ class ShippingOption(models.Model):
     name = models.CharField(max_length=200)
     image = models.ImageField(null=True, blank=True)
 
+    def __str__(self):
+        return self.name
+
     @property
     def imageURL(self):
+        """
+        If there's no image, show nothing
+        """
         try:
             url = self.image.url
         except:
@@ -80,5 +95,8 @@ class Cart(models.Model):
 
     @property
     def get_total(self):
+        """
+        Return total value inside the cart
+        """
         total = self.product.price * self.quantity
         return total
