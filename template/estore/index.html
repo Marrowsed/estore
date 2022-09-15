@@ -1,0 +1,36 @@
+{% extends 'estore/base.html' %}
+
+{% load static %}
+
+{% block content %}
+	<div class="row">
+		{% for p in products %}
+		<div class="col-lg-4">
+			<img class="thumbnail" src="{{product.imageURL}}">
+			<div class="box-element product text-center">
+				<h6><strong>{{p.name}}</strong></h6>
+				<hr>
+				<div class="d-inline">
+					<h4><strong>${{p.price}}</strong></h4>
+					{% if p.quantity <= 1 %}
+					<h4><span class="badge rounded-pill bg-danger">Last Item !</span></h4>
+					{% else %}
+					<h4><span class="badge rounded-pill bg-primary">New</span></h4>
+					{% endif %}
+				</div>
+				<hr>
+				{% if p.quantity == 0 %}
+				<button data-product="{{p.id}}" class="btn btn-danger disabled ">Sold Out !</button>
+				{% else %}
+				<button data-product="{{p.id}}" data-action="add" class="btn btn-outline-primary add-btn update-cart">Add to Cart</button>
+				{% endif %}
+				<a class="btn btn-outline-success" href="{% url 'product-detail' p.id %}">View</a>
+
+
+
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+
+{% endblock content %}
