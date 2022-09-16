@@ -9,31 +9,64 @@
     </div>
 </div>
 <div class="card d-flex">
-    <div>
-        <div class="text-start col-md-4">
+    <div class="d-flex">
+        <div class="text-start col-md-4 d-flex align-items-center">
             {% if object.imageURL != "" %}
-            <img src="{{object.imageURL}}">
+            <img src="{{object.imageURL}}" class="img-thumbnail">
             {% else %}
             <img src="{% static 'img/broken_cart.jpg' %}" class="img-thumbnail rounded float-start">
             {% endif %}
         </div>
-        <div class="align-content-center flex-wrap mx-auto text-center">
+        <div class="mx-auto text-center">
             <h2>Description</h2>
             <p>{{object.description}}</p>
             <h3 class="card-body"><span class="badge rounded-pill bg-primary">PROMO</span> ${{object.price}}</h3>
             {% if object.digital == True %}
             <h2>It's a Digital Product !</h2>
             {% endif%}
-            <h3 class="text-center">{% if object.quantity < 1 %}<span class="badge rounded-pill bg-danger">LAST UNIT</span>{% endif %} Quantity: {{object.quantity}} </h3>
+            <h3 class="text-center">{% if object.quantity == 1 %}<span class="badge rounded-pill bg-danger">LAST UNIT</span> Quantity: {{object.quantity}} {% elif object.quantity == 0 %} <span class="badge rounded-pill bg-danger">SOLD OUT !</span> {% endif %}</h3>
             <br>
             <h5>Seller: eStore</h5>
             <br>
-            <button data-product="{{object.id}}" data-action="add" class="btn btn-outline-primary add-btn update-cart">Add to Cart</button>
-            <button data-product="{{object.id}}" data-action="delete" class="btn btn-outline-danger add-btn update-cart">Delete Item from Cart</button>
+            <form method="post">
+                {% csrf_token %}
+                {% if object.quantity > 0 %}
+                <input class="btn btn-outline-primary add-btn update-cart" type="submit" name="add-cart" value="Add to Cart"/>
+                <input class="btn btn-outline-danger add-btn update-cart" type="submit" name="delete-cart" value="Delete Item from Cart"/>
+                {% endif %}
+            </form>
         </div>
-
     </div>
 </div>
+<div class="text-center">
+        <h3>Shipping Available</h3>
+        <select>
+            <option>--</option>
+            {% for s in shipping %}
+            <option>{{s}}</option>
+            {% endfor %}
+        </select>
+        <h3>Write your ZIP Code</h3>
+            <input type="text" id="zip_text">
+            <input type="submit" onclick="calculateZip()" id="zip_calc" value="Check">
+        <h3>Shipping Total</h3>
+        <p class="hidden" id="zip-total"></p>
+</div>
+
+<script>
+    function calculateZip() {
+        zip_len = document.getElementById("zip_text").value;
+        if (zip_len.length == 7) {
+            price = Math.floor(Math.random() * 50)
+            days = Math.floor(Math.random() * 10)
+            zip = document.getElementById("zip-total");
+            zip.innerHTML = "$"+price + " and " + days + " Business Days";
+            zip.classList.remove("hidden");
+        } else {
+            alert("ZIP Code is wrong !");
+        }
+    }
+</script>
 
 
 
