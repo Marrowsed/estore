@@ -3,7 +3,7 @@
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
 ![PyCharm](https://img.shields.io/badge/PyCharm-000000.svg?&style=for-the-badge&logo=PyCharm&logoColor=white)
 
-#eStore
+eStore
 
  :placard: Vitrine.Dev |     |
 | -------------  | --- |
@@ -19,18 +19,25 @@ Buy and Sell in your custom made shop !
 
 Views:
 
-<h1>Store View</h1>
-<img src="https://imgur.com/0l4NlvN" alt="Store View">
+Store View
+![Store-View](https://imgur.com/0l4NlvN)
 
-<h1>Product View</h1>
-<img src="https://imgur.com/YLhV0qx" alt="Django Product View">
+Product View
+![Django-Product-View](https://imgur.com/YLhV0qx)
 
-<img src="https://imgur.com/FKg0gIv" alt="Other Product View">
+![Other-Product-View](https://imgur.com/FKg0gIv)
+
+![Shipping](https://user-images.githubusercontent.com/13515555/190818923-e9c2cbac-4e4d-43e8-b019-caa0a07a627f.png)
 
 
-To-Do:
-<ul>
-  <li>Cart View</li>
-  <li>Checkout</li>
-  <li>Payment</li>
-</ul>
+
+#To-Do Cart:
+- Add Itens in cart from Index
+- Remove Itens in Cart from Index
+- Add Itens in cart from Product Page
+- Remove Itens in cart from Product Page
+- Create a View for Cart
+
+#To-Dos:
+- Payment
+- Checkout
