@@ -43,7 +43,7 @@ class Order(models.Model):
     transaction_id = models.CharField(max_length=100, null=True, unique=True)
 
     def __str__(self):
-        return f"{self.id} - {self.transaction_id}"
+        return f"Order Number: {self.id} - Transaction ID: {self.transaction_id}"
 
     @property
     def get_cart_total(self):
@@ -91,7 +91,7 @@ class Cart(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.id} - {self.order} - {self.shipping_option}"
+        return f"Product: {self.product} - Order Number: {self.order} - Shipping Option: {self.shipping_option}"
 
     @property
     def get_total(self):
