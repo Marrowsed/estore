@@ -3,5 +3,38 @@
 {% load static %}
 
 {% block content %}
+<div class="card">
+    <div class="card-body text-center">
+        <h1>{{object.name}}</h1>
+    </div>
+</div>
+<div class="card d-flex">
+    <div>
+        <div class="text-start col-md-4">
+            {% if object.imageURL != "" %}
+            <img src="{{object.imageURL}}">
+            {% else %}
+            <img src="{% static 'img/broken_cart.jpg' %}" class="img-thumbnail rounded float-start">
+            {% endif %}
+        </div>
+        <div class="align-content-center flex-wrap mx-auto text-center">
+            <h2>Description</h2>
+            <p>{{object.description}}</p>
+            <h3 class="card-body"><span class="badge rounded-pill bg-primary">PROMO</span> ${{object.price}}</h3>
+            {% if object.digital == True %}
+            <h2>It's a Digital Product !</h2>
+            {% endif%}
+            <h3 class="text-center">{% if object.quantity < 1 %}<span class="badge rounded-pill bg-danger">LAST UNIT</span>{% endif %} Quantity: {{object.quantity}} </h3>
+            <br>
+            <h5>Seller: eStore</h5>
+            <br>
+            <button data-product="{{object.id}}" data-action="add" class="btn btn-outline-primary add-btn update-cart">Add to Cart</button>
+            <button data-product="{{object.id}}" data-action="delete" class="btn btn-outline-danger add-btn update-cart">Delete Item from Cart</button>
+        </div>
+
+    </div>
+</div>
+
+
 
 {% endblock content %}
