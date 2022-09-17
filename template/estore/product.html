@@ -24,7 +24,7 @@
             {% if object.digital == True %}
             <h2>It's a Digital Product !</h2>
             {% endif%}
-            <h3 class="text-center">{% if object.quantity == 1 %}<span class="badge rounded-pill bg-danger">LAST UNIT</span> Quantity: {{object.quantity}} {% elif object.quantity == 0 %} <span class="badge rounded-pill bg-danger">SOLD OUT !</span> {% endif %}</h3>
+            <h3 class="text-center">{% if object.quantity == 1 %}<span class="badge rounded-pill bg-danger">LAST UNIT</span> Quantity: {{object.quantity}} {% elif object.quantity == 0 %} <span class="badge rounded-pill bg-danger">SOLD OUT !</span> {%else%} <span class="badge rounded-pill bg-primary">NEW</span> Quantity: {{object.quantity}} {% endif %}</h3>
             <br>
             <h5>Seller: eStore</h5>
             <br>
@@ -38,6 +38,16 @@
         </div>
     </div>
 </div>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}Important: {% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
 <div class="text-center">
         <h3>Shipping Available</h3>
         <select>
@@ -48,7 +58,7 @@
         </select>
         <h3>Write your ZIP Code</h3>
             <input type="text" id="zip_text">
-            <input type="submit" onclick="calculateZip()" id="zip_calc" value="Check">
+            <input type="submit" onclick="calculateZip()" id="zip_calc" value="Check" placeholder="00000000">
         <h3>Shipping Total</h3>
         <p class="hidden" id="zip-total"></p>
 </div>
@@ -56,7 +66,7 @@
 <script>
     function calculateZip() {
         zip_len = document.getElementById("zip_text").value;
-        if (zip_len.length == 7) {
+        if (zip_len.length == 8) {
             price = Math.floor(Math.random() * 50)
             days = Math.floor(Math.random() * 10)
             zip = document.getElementById("zip-total");

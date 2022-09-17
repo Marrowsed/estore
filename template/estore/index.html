@@ -6,31 +6,39 @@
 	<div class="row">
 		{% for p in products %}
 		<div class="col-lg-4">
-			{% if product.imageURL != "" %}
+			{% if p.imageURL == "" %}
 			<img src="{% static 'img/broken_cart.jpg' %}" class="img-thumbnail">
 			{% else %}
-			<img class="img-thumbnail" src="{{product.imageURL}}">
+			<img class="img-thumbnail" src="{{p.imageURL}}">
 			{% endif %}
 			<div class="box-element product text-center">
 				<h6><strong>{{p.name}}</strong></h6>
 				<hr>
 				<div class="d-inline">
+					{% if p.quantity == 1 %}
 					<h4><strong>${{p.price}}</strong></h4>
-					{% if p.quantity <= 1 %}
 					<h4><span class="badge rounded-pill bg-danger">Last Item !</span></h4>
-					{% else %}
+					{% elif p.quantity > 1 %}
+					<h4><strong>${{p.price}}</strong></h4>
 					<h4><span class="badge rounded-pill bg-primary">New</span></h4>
+					{% endif %}
+					{% if p.quantity == 0 %}
+					<h4><span class="badge rounded-pill bg-danger">SOLD OUT !</span></h4>
 					{% endif %}
 				</div>
 				<hr>
-				{% if p.quantity == 0 %}
-				<button data-product="{{p.id}}" class="btn btn-danger disabled ">Sold Out !</button>
-				{% else %}
-				<button data-product="{{p.id}}" data-action="add" class="btn btn-outline-primary add-btn update-cart">Add to Cart</button>
-				{% endif %}
-				<a class="btn btn-outline-success" href="{% url 'product-detail' p.id %}">View</a>
-
-
+				<form method="post">
+                {% csrf_token %}
+                	{% if p.quantity > 0 %}
+					<a class="btn btn-outline-primary" href="{% url 'cart-add' p.id %}">Add to Cart</a>
+                	{% endif %}
+					<a class="btn btn-outline-success" href="{% url 'product-detail' p.id %}">View</a>
+					{% for c in cart %}
+					{% if c.product == p %}
+						<p class="btn btn-outline-info">{{c.quantity}}</p>
+					{% endif %}
+					{% endfor%}
+				</form>
 
 			</div>
 		</div>
