@@ -3,7 +3,7 @@
 ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white)
 ![PyCharm](https://img.shields.io/badge/PyCharm-000000.svg?&style=for-the-badge&logo=PyCharm&logoColor=white)
 
-eStore
+# eStore
 
  :placard: Vitrine.Dev |     |
 | -------------  | --- |
@@ -17,27 +17,31 @@ E-Commerce Django Project !
 
 Buy and Sell in your custom made shop !
 
-Views:
+## **Views**:
 
-Store View
-![Store-View](https://imgur.com/0l4NlvN)
+## **Store View**
 
-Product View
-![Django-Product-View](https://imgur.com/YLhV0qx)
+![Store-View](https://i.imgur.com/0l4NlvN.png)
 
-![Other-Product-View](https://imgur.com/FKg0gIv)
+## **Product View**
 
-![Shipping](https://user-images.githubusercontent.com/13515555/190818923-e9c2cbac-4e4d-43e8-b019-caa0a07a627f.png)
+![Django-Product-View](https://i.imgur.com/YLhV0qx.png)
+
+![Other-Product-View](https://i.imgur.com/FKg0gIv.png)
+
+![Shipping](https://i.imgur.com/R8tZ5gG.png)
+
+## **Cart View**
+![Cart-View](https://i.imgur.com/UbyUvls.png)
 
 
+## To-Do Checkout:
+- Put Shipping Option
+- Create Checkout View
 
-#To-Do Cart:
-- Add Itens in cart from Index
-- Remove Itens in Cart from Index
-- Add Itens in cart from Product Page
-- Remove Itens in cart from Product Page
-- Create a View for Cart
-
-#To-Dos:
+# To-Dos:
 - Payment
-- Checkout
+
+# To-Dos Done:
+- Products
+- Cart
