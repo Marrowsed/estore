@@ -1,0 +1,53 @@
+{% extends 'estore/base.html' %}
+
+{% load static %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box-element">
+
+				<a  class="btn btn-outline-dark" href="{% url 'store-view' %}">&#x2190; Continue Shopping</a>
+
+				<br>
+				<br>
+				<table class="table">
+					<tr>
+						<th><h5>Items: <strong>{{order_items}}</strong></h5></th>
+						<th><h5>Total:<strong> ${{order_total|floatformat:2}}</strong></h5></th>
+						<th>
+							<a  style="float:right; margin:5px;" class="btn btn-success" href="#">Checkout</a>
+						</th>
+					</tr>
+				</table>
+
+			</div>
+
+			<br>
+			<table class="table">
+				<thead>
+					<tr>
+						<th></th>
+						<th scope="col" style="flex:2">Item</th>
+						<th scope="col" style="flex:2">Price</th>
+						<th scope="col" style="flex:2">Quantity</th>
+						<th scope="col" style="flex:2">Total</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for c in cart %}
+					<tr>
+						<th scope="row">{% if c.product.imageURL == "" %}<img src="{% static 'img/broken_cart.jpg' %}" class="img-thumbnail" style="width: 200px">{%else%}<img class="row-image" src="{{c.product.imageURL}}">{%endif%}</th>
+						<td style="flex:1">{{c.product.name}}</td>
+						<td style="flex:1">${{c.product.price|floatformat:2}}</td>
+						<td style="flex:1">{{c.quantity}}</td>
+						<td style="flex:1">${{c.get_total|floatformat:2}}</td>
+					</tr>
+				{%endfor%}
+				</tbody>
+			</table>
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
