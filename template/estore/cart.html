@@ -42,6 +42,7 @@
 						<td style="flex:1">${{c.product.price|floatformat:2}}</td>
 						<td style="flex:1">{{c.quantity}}</td>
 						<td style="flex:1">${{c.get_total|floatformat:2}}</td>
+						<td style="flex:1"><a type="button" class="btn btn-info" href="{% url 'cart-plus' c.product.id %}">+</a> <a type="button" class="btn btn-danger" href="{% url 'cart-minus' c.product.id %}">-</a> </td>
 					</tr>
 				{%endfor%}
 				</tbody>
@@ -49,5 +50,15 @@
 			</div>
 		</div>
 	</div>
+	{% if messages %}
+	<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}{% endif %}
+        {{ message }}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
 
 {% endblock content %}
