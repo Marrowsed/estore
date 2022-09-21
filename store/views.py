@@ -27,7 +27,7 @@ class ViewStore(ListView):
         return reverse('store-view')
 
 
-def cart_add(request, pk):
+def cart_add_index(request, pk):
     product = Product.objects.get(id=pk)
     order, created = Order.objects.get_or_create(
         customer=request.user.customer,
@@ -124,3 +124,59 @@ class ViewCart(ListView):
         context['order_items'] = order.get_cart_items
         context['order_total'] = order.get_cart_total
         return context
+
+
+def cart_plus(request, pk):
+    product = Product.objects.get(id=pk)
+    order, created = Order.objects.get_or_create(
+        customer=request.user.customer,
+        complete=False
+    )
+    cart, created = Cart.objects.get_or_create(
+        product=product,
+        order=order,
+    )
+    if product.quantity > 0:
+        cart.quantity += 1
+        cart.save()
+        product.quantity -= 1
+        product.save()
+    else:
+        messages.error(request, "Item out of stock !", extra_tags='alert alert-danger')
+    return redirect('cart-detail')
+
+
+def cart_minus(request, pk):
+    product = Product.objects.get(id=pk)
+    order, created = Order.objects.get_or_create(
+        customer=request.user.customer,
+        complete=False
+    )
+    cart, created = Cart.objects.get_or_create(
+        product=product,
+        order=order,
+    )
+    if cart.quantity == 0:
+        cart.delete()
+    else:
+        cart.quantity -= 1
+        cart.save()
+        product.quantity += 1
+        product.save()
+    return redirect('cart-detail')
+
+class ViewCheckout(ListView):
+    template_name = 'estore/checkout.html'
+    model = Cart
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cart'] = Cart.objects.all()
+        context['shippingOption'] = ShippingOption.objects.all()
+        customer = self.request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        context['order_items'] = order.get_cart_items
+        context['order_total'] = order.get_cart_total
+        return context
+
+
