@@ -1,0 +1,115 @@
+{% extends 'estore/base.html' %}
+
+{% load static %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-lg-6">
+			<div class="card" id="form-wrapper">
+				<form id="form">
+					{% if not user.is_authenticated %}
+					<h2 class="text-center">Quick Register</h2>
+					<div class="mb-3">
+						<input type="text" class="form-control" placeholder="Name" aria-label="Name">
+					</div>
+					<div class="input-group mb-3">
+  						<input type="text" class="form-control" placeholder="Email" aria-label="Email">
+  							<span class="input-group-text">@</span>
+  						<input type="text" class="form-control" placeholder="Domain.com" aria-label="Domain">
+					</div>
+					<input id="register-button" class="btn btn-info btn-block" type="submit" value="Register">
+					{%endif%}
+				</form>
+				{% if user.is_authenticated %}
+					<div id="shipping-info mx-auto">
+						<hr>
+						<p class="text-center">Shipping Information:</p>
+						<hr>
+						<form class="row g-3 p-3">
+							<div class="col-12">
+								<label for="address" class="form-label">Address</label>
+								<input type="text" class="form-control" id="address" placeholder="Type your Address...">
+							</div>
+							<div class="col-md-6">
+								<label for="city" class="form-label">City</label>
+								<input type="text" class="form-control" id="city" placeholder="Type your City...">
+							</div>
+							<div class="col-md-4">
+								<label for="state" class="form-label">State</label>
+								<input type="text" class="form-control" id="state" placeholder="Type your State...">
+							</div>
+							<div class="col-md-3">
+								<label for="zip" class="form-label">Zip</label>
+								<input type="text" class="form-control" id="zip" onchange="calculateZip()" placeholder="00000000">
+							</div>
+							<div class="col-md-4">
+    							<label for="shippingOption" class="form-label">Shipping Option</label>
+    							<select id="shippingOption" class="form-select">
+      							<option selected>Choose...</option>
+									{% for s in shippingOption %}
+      									<option>{{s}}</option>
+									{% endfor%}
+    							</select>
+  							</div>
+						</form>
+					</div>
+				<hr>
+				<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
+				{%endif%}
+			</div>
+
+			<br>
+		</div>
+		<div class="col-lg-6">
+			<div class="box-element">
+				<a  class="btn btn-outline-dark" href="{% url 'cart-detail' %}">&#x2190; Back to Cart</a>
+				<hr>
+				<h3>Order Summary</h3>
+				<hr>
+				<table class="table">
+				<thead>
+					<tr>
+						<th></th>
+						<th scope="col" style="flex:2">Item</th>
+						<th scope="col" style="flex:2">Price</th>
+						<th scope="col" style="flex:2">Quantity</th>
+						<th scope="col" style="flex:2">Total</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for c in cart %}
+					<tr>
+						<th scope="row">{% if c.product.imageURL == "" %}<img src="{% static 'img/broken_cart.jpg' %}" class="img-thumbnail" style="width: 200px">{%else%}<img class="row-image" src="{{c.product.imageURL}}">{%endif%}</th>
+						<td style="flex:1">{{c.product.name}}</td>
+						<td style="flex:1">${{c.product.price|floatformat:2}}</td>
+						<td style="flex:1">{{c.quantity}}</td>
+						<td style="flex:1">${{c.get_total|floatformat:2}}</td>
+					</tr>
+				{%endfor%}
+				</tbody>
+			</table>
+				<h5>Items:   {{order_items}}</h5>
+				<h5>Total:   ${{order_total|floatformat:2}}</h5>
+				<h5 id="shippiment">Shippiment: </h5>
+			</div>
+		</div>
+	</div>
+
+<script>
+    function calculateZip() {
+        zip_len = document.getElementById("zip").value;
+        option = document.getElementById('shippingOption').value;
+        if (zip_len.length == 8 && option != "Choose...") {
+            price = Math.floor(Math.random() * 50)
+            days = Math.floor(Math.random() * 10)
+            shippiment = document.getElementById("shippiment");
+            shippiment.innerHTML = "Shippiment: $"+price + " and " + days + " Business Days";
+        } else {
+            alert("ZIP Code or Shipping Option is wrong !");
+        }
+    }
+</script>
+
+
+
+{% endblock content %}
