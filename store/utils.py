@@ -1,7 +1,8 @@
 import datetime
+import random
 
 from django.http import HttpResponseForbidden
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import DetailView, ListView, FormView
 from django.urls import reverse
 from django.views.generic.detail import SingleObjectMixin
@@ -87,29 +88,29 @@ class PostCheckout(SingleObjectMixin, FormView):
     template_name = 'estore/checkout.html'
     model = Checkout
 
-
     def post(self, request, *args, **kwargs):
         customer = self.request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        cart = Cart.objects.get(order=order)
+        cart, created = Cart.objects.get_or_create(order=order)
         if not request.user.is_authenticated:
             return HttpResponseForbidden()
         self.object = get_object_or_404(Order, pk=order.pk)
+        shipping = self.request.POST.get('shippingOption')
+        shipping_option = ShippingOption.objects.get(name=shipping)
+        cart.delete()
         order.complete = True
         order.transaction_id = datetime.datetime.now().timestamp()
         order.save()
-        """
-        Checkout.objects.create(customer = customer,
-                                order = order,
-                                shipping_option = form['shippingOption'],
-                                address = form['address'],
-                                city = form['city'],
-                                state = form['state'],
-                                zipcode = form['zip']
-        """
-        cart.delete()
-
-        return super().post(request, *args, **kwargs)
+        Checkout.objects.create(customer=customer,
+                                order=order,
+                                shipping_option=shipping_option,
+                                address=self.request.POST.get('address'),
+                                city=self.request.POST.get('city'),
+                                state=self.request.POST.get('state'),
+                                zipcode=self.request.POST.get('zip')
+                                )
+        super().post(request, *args, **kwargs)
+        return redirect('store-view')
 
     def get_success_url(self):
         return reverse('store-view')
