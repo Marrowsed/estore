@@ -16,7 +16,7 @@
 						<th><h5>Items: <strong>{{order_items}}</strong></h5></th>
 						<th><h5>Total:<strong> ${{order_total|floatformat:2}}</strong></h5></th>
 						<th>
-							<a  style="float:right; margin:5px;" class="btn btn-success" href="#">Checkout</a>
+							<a  style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout-detail' %}">Checkout</a>
 						</th>
 					</tr>
 				</table>
@@ -37,7 +37,7 @@
 				<tbody>
 				{% for c in cart %}
 					<tr>
-						<th scope="row">{% if c.product.imageURL == "" %}<img src="{% static 'img/broken_cart.jpg' %}" class="img-thumbnail" style="width: 200px">{%else%}<img class="row-image" src="{{c.product.imageURL}}">{%endif%}</th>
+						<th scope="row">{% if c.product.imageURL == "" %}<img src="{% static 'img/broken_cart.jpg' %}" class="img-thumbnail" style="width: 200px">{%else%}<img class="row-image img-thumbnail" style="width: 200px" src="{{c.product.imageURL}}">{%endif%}</th>
 						<td style="flex:1">{{c.product.name}}</td>
 						<td style="flex:1">${{c.product.price|floatformat:2}}</td>
 						<td style="flex:1">{{c.quantity}}</td>
