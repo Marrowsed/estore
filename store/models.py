@@ -91,7 +91,7 @@ class Cart(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Product: {self.product} - Order Number: {self.order} - Shipping Option: {self.shipping_option}"
+        return f"Product: {self.product} - Order Number: {self.order} - Shipping Option: {self.shipping_option} - Quantity: {self.quantity}"
 
     @property
     def get_total(self):
@@ -100,6 +100,7 @@ class Cart(models.Model):
         """
         total = self.product.price * self.quantity
         return total
+
 
 class Checkout(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
@@ -113,4 +114,3 @@ class Checkout(models.Model):
 
     def __str__(self):
         return f"Checkout {self.order}"
-
