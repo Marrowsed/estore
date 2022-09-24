@@ -17,8 +17,6 @@ E-Commerce Django Project !
 
 Buy and Sell in your custom made shop !
 
-## **Views**:
-
 ## **Store View**
 
 ![Store-View](https://i.imgur.com/0l4NlvN.png)
@@ -34,14 +32,33 @@ Buy and Sell in your custom made shop !
 ## **Cart View**
 ![Cart-View](https://i.imgur.com/UbyUvls.png)
 
+## **Checkout View**
+![Checkout-View](https://i.imgur.com/CT6uuRG.png)
 
-## To-Do Checkout:
-- Put Shipping Option
-- Create Checkout View
+# Config
+<hr>
 
-# To-Dos:
-- Payment
+- Create an `.env` file in the same folder where `migrate.py` is.
+- In your terminal with venv, execute `python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'` generating a new secret key
+- Insert the new secret key in `.env` file like this: `SECRET_KEY = oahsdodjifodjfodjfpadjpajsdpojsd` .
+- Insert the database URL in the `.env` file like this: `DATABASE_URL = your_db://your_db:password@localhost/my_db`.
+- Run `python manage.py migrate` and create the tables
+
+# Run
+<hr>
+
+```sh
+python manage.py runserver
+```
+
+Server is running in http://127.0.0.1:8000/, access your browser !
+ 
+    
+
+
 
 # To-Dos Done:
 - Products
 - Cart
+- Payment
+- Checkout
